@@ -1,0 +1,11 @@
+* {
+    scroll-behavior: smooth;
+  }
+
+body {
+    background-color: #f1faee;
+}
+
+.bg-primary {
+    background-color: #d90429 !important;
+}
