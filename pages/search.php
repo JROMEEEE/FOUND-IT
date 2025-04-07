@@ -34,150 +34,80 @@ if (isset($_GET['q'])) {
 }
 ?>
 
+<?php include('../includes/navbar.php') ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
-    <style>
-        /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-
-        h2 {
-            text-align: center;
-            margin-top: 20px;
-            color: #2e7d32;
-        }
-
-        /* Search Bar Styling */
-        #search-form {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        #search-form input[type="text"] {
-            flex: 1;
-            max-width: 600px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 18px;
-        }
-
-        #search-form button {
-            padding: 15px 25px;
-            background-color: #2e7d32;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #search-form button:hover {
-            background-color: #005005;
-        }
-
-        /* Search Results Styling */
-        .search-results {
-            margin: 20px auto;
-            padding: 30px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 1200px;
-        }
-
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-        }
-
-        .item-card {
-            padding: 20px;
-            background-color: #f5f5f5;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .item-card h3 {
-            margin-bottom: 15px;
-            font-size: 20px;
-            color: #2e7d32;
-        }
-
-        .item-card p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        .item-card strong {
-            color: #333;
-        }
-
-        /* Back Button Styling */
-        #back-btn {
-            display: inline-block;
-            margin: 30px auto;
-            padding: 15px 30px;
-            background-color: #ff6f00; /* Orange color */
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 18px;
-            text-align: center;
-            transition: background-color 0.3s ease;
-        }
-
-        #back-btn:hover {
-            background-color: #c43e00; /* Darker orange */
-        }
-    </style>
+    <title>Search Lost & Found Items</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 </head>
 <body>
+    <h2 class="display-3 text-center mt-5">Search Lost & Found Items</h2>  
 
-<h2>Search Lost & Found Items</h2>
-
-<!-- Search Form -->
-<form id="search-form" method="GET" action="search.php">
-    <input type="text" id="search-input" name="q" placeholder="Search by item name or category..." value="<?php echo htmlspecialchars($search_query); ?>">
-    <button type="submit">🔍 Search</button>
-</form>
-
-<!-- Search Results -->
-<div class="search-results">
-    <?php if (!empty($results)): ?>
-        <div class="items-grid">
-            <?php foreach ($results as $item): ?>
-                <div class="item-card">
-                    <h3><?php echo htmlspecialchars($item['category']); ?></h3>
-                    <p><strong>Description:</strong> <?php echo htmlspecialchars($item['description']); ?></p>
-                    <p><strong>Location:</strong> <?php echo htmlspecialchars($item['location']); ?></p>
-                    <p><strong>Date:</strong> <?php echo htmlspecialchars($item['date_lost'] ?? $item['date_found']); ?></p>
-                    <p><strong>Type:</strong> <?php echo htmlspecialchars($item['type']); ?></p>
-                    <p><strong>Status:</strong> <?php echo htmlspecialchars($item['status']); ?></p>
-                </div>
-            <?php endforeach; ?>
+    <div class="container mb-5">
+        <div class="row justify-content-center" style="margin-top: 50px;">
+            <div class="col-md-6">
+                <form id="search-form" method="GET" action="search.php" class="input-group">
+                    <input type="text" id="search-input" name="q" class="form-control" placeholder="Search by item name or category..." value="<?php echo htmlspecialchars($search_query); ?>">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">🔍 Search</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    <?php elseif ($search_query): ?>
-        <p>No results found for "<?php echo htmlspecialchars($search_query); ?>".</p>
-    <?php endif; ?>
-</div>
+    </div>
 
-<!-- Back Button -->
-<a href="dashboard.php" id="back-btn">Back to Dashboard</a>
+    <div class="search-results">
+        <?php if (!empty($results)): ?>
+            <div class="table-responsive">
+                <table id="resultsTable" class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($results as $item): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($item['category']); ?></td>
+                                <td><?php echo htmlspecialchars($item['description']); ?></td>
+                                <td><?php echo htmlspecialchars($item['location']); ?></td>
+                                <td><?php echo htmlspecialchars($item['date_lost'] ?? $item['date_found']); ?></td>
+                                <td><?php echo htmlspecialchars($item['type']); ?></td>
+                                <td><?php echo htmlspecialchars($item['status']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php elseif ($search_query): ?>
+            <div class="alert alert-warning" role="alert">
+                No results found for "<?php echo htmlspecialchars($search_query); ?>".
+            </div>
+        <?php endif; ?>
+    </div>
 
-<?php include('../includes/footer.php'); ?>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384 -MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#datatableid').DataTable();
+        });
+    </script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 
 <nav class="shadow navbar custom-navbar sticky-top">
       <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="../index.php">
+        <a class="navbar-brand d-flex align-items-center" href="index.php">
           <img src="assets/logo.png" width="45" height="45" class="d-inline-block align-middle me-2">
           FOUND-IT!
         </a>
@@ -63,11 +63,12 @@ if (!$result_found) {
         <h2 class="section-title text-center mb-4">Recently Lost Items</h2>
         
         <div class="dashboard-search mb-4 text-center">
-            <form action="pages/search.php" method="GET" class="form-inline justify-content-center">
+            <!-- <form action="pages/search.php" method="GET" class="form-inline justify-content-center">
                 <input type="hidden" name="type" value="lost">
                 <input type="text" name="query" class="form-control mr-2" placeholder="Search lost items..." required>
                 <button type="submit" class="btn btn-primary mt-3">Search</button>
-            </form>
+            </form> -->
+            <a href="pages/search.php" class="btn btn-primary">Search for an Item</a>
         </div>
         
         <div class="row">

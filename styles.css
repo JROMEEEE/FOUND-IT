@@ -10,14 +10,16 @@ body {
     background-color: #d90429 !important;
 }
 
+.bg-secondary {
+    background-color: #ef233c !important;
+}
+
 .btn-primary {
     background-color: #d90429 !important;
     border-color: #d90429 !important;
 }
 
-.bg-secondary {
-    background-color: #ef233c !important;
-}
+/* NAVBAR */
 
 :root {
     --navbar-bg-color: #d90429;
