@@ -9,3 +9,33 @@ body {
 .bg-primary {
     background-color: #d90429 !important;
 }
+
+.btn-primary {
+    background-color: #d90429 !important;
+    border-color: #d90429 !important;
+}
+
+.bg-secondary {
+    background-color: #ef233c !important;
+}
+
+:root {
+    --navbar-bg-color: #d90429;
+    --navbar-text-color: #ffffff;
+    --navbar-hover-text-color: #ef233c; 
+}
+
+.custom-navbar {
+    background-color: var(--navbar-bg-color);
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .navbar-nav .nav-item .navbar-brand {
+    color: var(--navbar-text-color);
+    transition: color 0.3s;
+}
+
+.custom-navbar .navbar-brand:hover,
+.custom-navbar .navbar-nav .nav-item .navbar-brand:hover {
+    color: var(--navbar-hover-text-color);
+}
