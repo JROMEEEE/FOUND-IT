@@ -63,6 +63,8 @@ if (isset($_GET['q'])) {
         </div>
     </div>
 
+
+
     <div class="search-results">
         <?php if (!empty($results)): ?>
             <div class="table-responsive">

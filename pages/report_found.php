@@ -49,85 +49,87 @@ if (isset($_POST['submit_found'])) {
 }
 ?>
 
-<?php include('../includes/navbar.php') ?>
+<?php include('../includes/navbar.php'); // NAVBAR ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container bg-secondary text-white mt-3">
-        <br>
-        <h2 class="display-4 text-center mt-3">Report Found Item</h2>
-        <form method="POST" enctype="multipart/form-data" class="container my-4">
-                <div class="form-group mb-3">
-                    <label>Category</label>
-                    <select name="category" id="category" class="form-select" required onchange="toggleCustomCategory()">
-                        <option value="">Select Category</option>
-                        <option value="Electronics">Electronics</option>
-                        <option value="Books">Books</option>
-                        <option value="ID Cards">ID Cards</option>
-                        <option value="Bags">Bags</option>
-                        <option value="Clothing">Clothing</option>
-                        <option value="Jewelry">Jewelry</option>
-                        <option value="Other">Other (Please specify)</option>
-                    </select>
-                </div>
-                
-                <div class="form-group" id="customCategoryGroup" style="display: none;">
-                    <label>Specify Category</label>
-                    <input type="text" name="custom_category" id="custom_category" class="form-control" placeholder="Enter custom category">
-                </div>
-                
-                <div class="form-group mb-3">
-                    <label>Description</label>
-                    <textarea name="description" class="form-control" placeholder="Description (e.g., Blue wallet)" required></textarea>
-                </div>
+    <title>Report Lost Item</title>
+    <!-- Link to external CSS file -->
+<link rel="stylesheet" href="report_found.css">
 
-                <div class="form-group mb-3">
-                    <label>Found Location</label>
-                    <input type="text" name="location" class="form-control" placeholder="Where did you find it?" required>
-                </div>
+<div class="container">
+    
+    <form method="POST" enctype="multipart/form-data" class="my-4">
+        <h2 class="display-4">Report Found Item</h2>
+        
+        <div class="form-group mb-3">
+            <label for="category">Category</label>
+            <select name="category" id="category" class="form-select" required onchange="toggleCustomCategory()">
+                <option value="">Select Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Books">Books</option>
+                <option value="ID Cards">ID Cards</option>
+                <option value="Bags">Bags</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Jewelry">Jewelry</option>
+                <option value="Other">Other (Please specify)</option>
+            </select>
+        </div>
+        
+        <div class="form-group mb-3" id="customCategoryGroup" style="display: none;">
+            <label for="custom_category">Specify Category</label>
+            <input type="text" name="custom_category" id="custom_category" class="form-control" placeholder="Enter custom category">
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="description">Description</label>
+            <textarea name="description" class="form-control" id="description" placeholder="Description (e.g., Blue wallet)" required></textarea>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="location">Found Location</label>
+            <input type="text" name="location" class="form-control" id="location" placeholder="Where did you find it?" required>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="date_found">Date Found</label>
+            <input type="date" name="date_found" class="form-control" id="date_found" required>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="image">Upload Image (Optional)</label>
+            <input type="file" name="image" class="form-control" id="image" accept="image/*">
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="reporter_name">Contact Information</label>
+            <input type="text" name="reporter_name" class="form-control mb-3" id="reporter_name" placeholder="Your Name" required>
+            <input type="email" name="reporter_email" class="form-control mb-3" id="reporter_email" placeholder="Your Email" required>
+            <input type="tel" name="reporter_phone" class="form-control mb-3" id="reporter_phone" placeholder="Your Phone Number" required>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="status">Current Status</label>
+            <select name="status" class="form-select" id="status" required>
+                <option value="in_possession">I have the item</option>
+                <option value="turned_in">Turned in to lost and found</option>
+                <option value="left_in_place">Left in place where found</option>
+            </select>
+        </div>
+        
+        <div class="form-check mb-4">
+            <input type="checkbox" name="terms" class="form-check-input" id="terms" required>
+            <label for="terms" class="form-check-label">I agree to the terms and conditions</label>
+        </div>
+        
+        <button type="submit" name="submit_found" class="btn btn-primary">Submit Report</button>
+    </form>
+</div>
 
-                <div class="form-group mb-3">
-                    <label>Date Found</label>
-                    <input type="date" name="date_found" class="form-control" required>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label>Upload Image (Optional)</label>
-                    <input type="file" name="image" class="form-control" accept="image/*">
-                </div>
-
-                <div class="form-group mb-3">
-                    <label>Contact Information</label>
-                    <input type="text" name="reporter_name" class="form-control mb-3" placeholder="Your Name" required>
-                    <input type="email" name="reporter_email" class="form-control mb-3" placeholder="Your Email" required>
-                    <input type="tel" name="reporter_phone" class="form-control mb-3" placeholder="Your Phone Number" required>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label>Current Status</label>
-                    <select name="status" class="form-select" required>
-                        <option value="in_possession">I have the item</option>
-                        <option value="turned_in">Turned in to lost and found</option>
-                        <option value="left_in_place">Left in place where found</option>
-                    </select>
-                </div>
-
-                <div class="form-check mb-3">
-                    <input type="checkbox" name="terms" class="form-check-input" required>
-                    <label>I agree to the terms and conditions</label>
-                </div>
-
-                <button type="submit" name="submit_found" class="btn btn-primary mb-3">Submit Report</button>
-    </div>
-</form>
-
-<!-- <script>
+<script>
 function toggleCustomCategory() {
     const categorySelect = document.getElementById('category');
     const customCategoryGroup = document.getElementById('customCategoryGroup');
@@ -140,6 +142,4 @@ function toggleCustomCategory() {
         document.getElementById('custom_category').required = false;
     }
 }
-</script> -->
-</body>
-</html>
+</script>
