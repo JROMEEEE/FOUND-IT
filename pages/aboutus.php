@@ -4,76 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Lost and Found System</title>
-    <style>
-        body {
-            font-family: "Roboto", Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: 
-                /* 22% dark overlay */
-                linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.22)),
-                /* Background image */
-                url('../assets/images/campus-slider-main-1.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 50px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        h1 {
-            text-align: center;
-            color: #2e7d32;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-
-        .section {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-left: 4px solid #2e7d32;
-            border-radius: 5px;
-        }
-
-        .section h2 {
-            color: #1b5e20;
-            margin-top: 0;
-            font-size: 22px;
-        }
-
-        .section p {
-            line-height: 1.6;
-            font-size: 16px;
-        }
-
-        .back-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #2e7d32;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .back-button:hover {
-            background-color: #1b5e20;
-            transform: translateY(-2px);
-        }
-    </style>
+    <link rel="stylesheet" href="aboutus.css">
 </head>
 <body>
 

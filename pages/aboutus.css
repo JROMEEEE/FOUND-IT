@@ -1,0 +1,160 @@
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #1d3557;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    /* Dark overlay for better readability */
+    background: linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.22)),
+      /* Background image - replace with your image path */
+      url("../assets/image/campus-slider-main-1.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  .container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background: rgba(248, 249, 250, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #003049;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  
+  h1::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #003049, #d62828);
+    border-radius: 2px;
+  }
+  
+  .section {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: #f9f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.2s ease;
+  }
+  
+  .section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, #003049, #d62828);
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .section h2 {
+    color: #003049;
+    margin-top: 0;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+  }
+  
+  .section h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #003049, #d62828);
+    border-radius: 2px;
+  }
+  
+  .section p {
+    line-height: 1.6;
+    font-size: 16px;
+    color: #1d3557;
+  }
+  
+  .section ul,
+  .section ol {
+    color: #1d3557;
+    padding-left: 20px;
+  }
+  
+  .section li {
+    margin-bottom: 8px;
+  }
+  
+  .back-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 25px;
+    background: linear-gradient(to right, #2a9d8f, #238b7e);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(42, 157, 143, 0.2);
+  }
+  
+  .back-button:hover {
+    background: linear-gradient(to right, #238b7e, #1c7d70);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(42, 157, 143, 0.3);
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .section {
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+  
+  .section:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  
+  .section:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  
+  .section:nth-child(4) {
+    animation-delay: 0.3s;
+  }
+  
