@@ -36,202 +36,211 @@ require_once('../config/db.php');
 <h2>Admin Dashboard</h2>
 <section class="section">
     <div class="container">
-        <div class="tab-navigation">
-            <button class="tab-button active" data-tab="lost-items" onclick="showTab('lost-items', event)">Lost Items</button>
-            <button class="tab-button" data-tab="found-items" onclick="showTab('found-items', event)">Found Items</button>
-            <button class="tab-button" data-tab="claim-requests" onclick="showTab('claim-requests', event)">Claim Requests</button>
-        </div>
+        <h3>Manage Lost Items</h3>
+        <?php
+        // Fetch all lost items
+        $sql = "SELECT * FROM Lost_Item ORDER BY date_lost DESC";
+        $result = $conn->query($sql);
 
-        <!-- Lost Items Tab -->
-        <div id="lost-items" class="tab-content active">
-            <h3>Manage Lost Items</h3>
-            <?php
-            $sql = "SELECT * FROM Lost_Item ORDER BY date_lost DESC";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0): ?>
-                <div class="table-container">
-                    <table class="table lost-items-table">
-                        <thead>
+        if ($result->num_rows > 0): ?>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Location</th>
+                            <th>Date Lost</th>
+                            <th>Status</th>
+                            <th>Reporter Name</th>
+                            <th>Reporter Email</th>
+                            <th>Reporter Phone</th>
+                            <th>Image</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()): ?>
                             <tr>
-                                <th>Category</th>
-                                <th>Description</th>
-                                <th>Location</th>
-                                <th>Date Lost</th>
-                                <th>Status</th>
-                                <th>Reporter Name</th>
-                                <th>Reporter Email</th>
-                                <th>Reporter Phone</th>
-                                <th>Image</th>
-                                <th>Actions</th>
+                                <td><?php echo htmlspecialchars($row['category']); ?></td>
+                                <td><?php echo htmlspecialchars($row['description']); ?></td>
+                                <td><?php echo htmlspecialchars($row['location']); ?></td>
+                                <td><?php echo htmlspecialchars($row['date_lost']); ?></td>
+                                <td id="status-<?php echo $row['lost_id']; ?>"><?php echo htmlspecialchars($row['status']); ?></td>
+                                <td><?php echo htmlspecialchars($row['reporter_name']); ?></td>
+                                <td><?php echo htmlspecialchars($row['reporter_email']); ?></td>
+                                <td><?php echo htmlspecialchars($row['reporter_phone']); ?></td>
+                                <td>
+                                    <?php if (!empty($row['image'])): ?>
+                                        <img src="../uploads/<?php echo htmlspecialchars($row['image']); ?>" alt="Item Image" class="item-image">
+                                    <?php else: ?>
+                                        No Image
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button onclick="updateStatus('approve', <?php echo $row['lost_id']; ?>)" class="btn btn-success">Approve</button>
+                                        <button onclick="updateStatus('reject', <?php echo $row['lost_id']; ?>)" class="btn btn-danger">Reject</button>
+                                        <button onclick="updateStatus('pending', <?php echo $row['lost_id']; ?>)" class="btn btn-warning">Mark as Pending</button>
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($row = $result->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($row['category']) ?></td>
-                                    <td><?= htmlspecialchars($row['description']) ?></td>
-                                    <td><?= htmlspecialchars($row['location']) ?></td>
-                                    <td><?= htmlspecialchars($row['date_lost']) ?></td>
-                                    <td id="status-lost-<?= $row['lost_id'] ?>"><?= htmlspecialchars($row['status']) ?></td>
-                                    <td><?= htmlspecialchars($row['reporter_name']) ?></td>
-                                    <td><?= htmlspecialchars($row['reporter_email']) ?></td>
-                                    <td><?= htmlspecialchars($row['reporter_phone']) ?></td>
-                                    <td>
-                                        <?php if (!empty($row['image'])): ?>
-                                            <img src="../uploads/<?= htmlspecialchars($row['image']) ?>" alt="Item Image" class="item-image">
-                                        <?php else: ?>
-                                            No Image
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button onclick="updateLostItemStatus('approve', <?= $row['lost_id'] ?>)" class="btn btn-success">Approve</button>
-                                            <button onclick="updateLostItemStatus('reject', <?= $row['lost_id'] ?>)" class="btn btn-danger">Reject</button>
-                                            <button onclick="updateLostItemStatus('pending', <?= $row['lost_id'] ?>)" class="btn btn-warning">Mark as Pending</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <p>No lost items to manage.</p>
-            <?php endif; ?>
-        </div>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php else: ?>
+            <p>No lost items to manage.</p>
+        <?php endif; ?>
 
-        <!-- Found Items Tab -->
-        <div id="found-items" class="tab-content">
-            <h3>Manage Found Items</h3>
-            <?php
-            $sql = "SELECT * FROM Found_Item ORDER BY date_found DESC";
-            $result = $conn->query($sql);
-
-            if ($result && $result->num_rows > 0): ?>
-                <div class="table-container">
-                    <table class="table found-items-table">
-                        <thead>
-                            <tr>
-                                <th>Category</th>
-                                <th>Description</th>
-                                <th>Location Found</th>
-                                <th>Date Found</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($row = $result->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($row['category'] ?? '') ?></td>
-                                    <td><?= htmlspecialchars($row['description'] ?? '') ?></td>
-                                    <td><?= htmlspecialchars($row['location'] ?? '') ?></td>
-                                    <td><?= htmlspecialchars($row['date_found'] ?? '') ?></td>
-                                    <td id="status-found-<?= $row['found_id'] ?>"><?= htmlspecialchars($row['status'] ?? 'pending') ?></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button onclick="updateFoundItemStatus('approve', <?= $row['found_id'] ?>)" class="btn btn-success">Approve</button>
-                                            <button onclick="updateFoundItemStatus('reject', <?= $row['found_id'] ?>)" class="btn btn-danger">Reject</button>
-                                            <button onclick="updateFoundItemStatus('pending', <?= $row['found_id'] ?>)" class="btn btn-warning">Mark as Pending</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <p>No found items to manage.</p>
-            <?php endif; ?>
-        </div>
-
-        <!-- Claim Requests Tab -->
-        <div id="claim-requests" class="tab-content">
-            <h3>Manage Claim Requests</h3>
-            <?php
-            $sql = "SELECT c.*, f.category, f.description, f.location, f.date_found 
-                    FROM Claim_Request c 
-                    JOIN Found_Item f ON c.found_id = f.found_id 
-                    ORDER BY c.date_submitted DESC";
-            $result = $conn->query($sql);
-
-            if ($result && $result->num_rows > 0): ?>
-                <div class="table-container">
-                    <table class="table claim-requests-table">
-                        <thead>
-                            <tr>
-                                <th>Item Details</th>
-                                <th>Claimant Info</th>
-                                <th>Proof Submitted</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($row = $result->fetch_assoc()): ?>
-                                <tr>
-                                    <td>
-                                        <strong>Category:</strong> <?= htmlspecialchars($row['category'] ?? '') ?><br>
-                                        <strong>Description:</strong> <?= htmlspecialchars($row['description'] ?? '') ?><br>
-                                        <strong>Location:</strong> <?= htmlspecialchars($row['location'] ?? '') ?><br>
-                                        <strong>Date Found:</strong> <?= htmlspecialchars($row['date_found'] ?? '') ?>
-                                    </td>
-                                    <td>
-                                        <strong>Name:</strong> <?= htmlspecialchars($row['claimant_name'] ?? '') ?><br>
-                                        <strong>Email:</strong> <?= htmlspecialchars($row['claimant_email'] ?? '') ?><br>
-                                        <strong>Phone:</strong> <?= htmlspecialchars($row['claimant_phone'] ?? '') ?><br>
-                                        <strong>Unique Features:</strong> <?= htmlspecialchars($row['unique_features'] ?? '') ?>
-                                    </td>
-                                    <td>
-                                        <?php if (!empty($row['proof_image'])): ?>
-                                            <button class="btn btn-info" onclick="viewProofImage('<?= htmlspecialchars($row['proof_image']) ?>')">View Image</button>
-                                        <?php else: ?>
-                                            No Image
-                                        <?php endif; ?>
-                                    </td>
-                                    <td id="status-claim-<?= $row['claim_id'] ?>">
-                                        <span class="badge bg-<?= ($row['status'] == 'approved') ? 'success' : (($row['status'] == 'rejected') ? 'danger' : 'warning') ?>">
-                                            <?= ucfirst(htmlspecialchars($row['status'] ?? 'pending')) ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button onclick="updateClaimStatus('approve', <?= $row['claim_id'] ?>)" class="btn btn-success">Approve</button>
-                                            <button onclick="updateClaimStatus('reject', <?= $row['claim_id'] ?>)" class="btn btn-danger">Reject</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <p>No claim requests to manage.</p>
-            <?php endif; ?>
-        </div>
-
+        <!-- Back to Dashboard Button -->
         <a href="dashboard.php" class="btn btn-secondary mt-3">Back to Dashboard</a>
     </div>
 </section>
 
-<!-- Modal for viewing proof images -->
-<div class="modal fade" id="proofImageModal" tabindex="-1" aria-labelledby="proofImageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="proofImageModalLabel">Proof Image</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="proofImageDisplay" src="/placeholder.svg" alt="Proof Image" style="max-width: 100%;">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+    // Function to update the status via AJAX
+    function updateStatus(action, lostId) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `process_item.php?action=${action}&lost_id=${lostId}`, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    // Update the status in the table
+                    document.getElementById(`status-${lostId}`).innerText = response.new_status;
+                } else {
+                    alert(response.message);
+                }
+            } else {
+                alert("An error occurred while processing the request.");
+            }
+        };
+        xhr.onerror = function () {
+            alert("An error occurred while connecting to the server.");
+        };
+        xhr.send();
+    }
+</script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 20px;
+        color: #2e7d32;
+    }
+
+    .container {
+        width: 95%; /* Adjusted to occupy 95% of the background */
+        margin: 0 auto;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+
+    .table {
+        width: 100%; /* Table occupies the full width of the container */
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .table th, .table td {
+        padding: 20px; /* Increased padding for more spacious cells */
+        text-align: left;
+        border: 1px solid #ddd;
+        font-size: 16px; /* Increased font size for better readability */
+    }
+
+    .table th {
+        background-color: #2e7d32;
+        color: white;
+        font-size: 18px;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .item-image {
+        width: 150px; /* Increased image size for better visibility */
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .btn {
+        padding: 12px 20px; /* Increased button size */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #1e7e34;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #a71d2a;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        padding: 12px 25px;
+        border-radius: 5px;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    /* New styles for horizontal buttons */
+    .action-buttons {
+        display: flex;
+        gap: 10px; /* Add spacing between buttons */
+        justify-content: flex-start; /* Align buttons to the left */
+    }
+</style>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="admin.js"></script>
