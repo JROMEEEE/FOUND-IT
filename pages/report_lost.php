@@ -5,7 +5,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-include('../includes/header.php'); 
 require_once('../config/db.php');
 
 // Handle form submission
@@ -67,21 +66,46 @@ if (isset($_POST['submit_lost'])) {
 }
 ?>
 
-<!-- Include Navbar here -->
-<?php include('../includes/navbar.php'); // NAVBAR ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Lost Item</title>
-    <link rel="stylesheet" href="report_lost.css">
+    <?php
+    include('../config/bootstrap.php');
+    ?>
+
 </head>
 <body>
-    <div class="container">
-        <form method="POST" enctype="multipart/form-data" class="my-4">
-            <h2 class="display-4">Report Lost Item</h2>
+
+    <nav class="shadow navbar custom-navbar sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center" href="../index.php">
+                    <img src="../assets/logo.png" width="45" height="45" class="d-inline-block align-middle me-2">
+                    FOUND-IT!
+                </a>
+                <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+                    <li nav-item col-6 col-lg-auto>
+                        <a class="navbar-brand d-flex align-items-center" href="../index.php">Home</a>
+                    </li>
+                    <li nav-item col-6 col-lg-auto>
+                        <a class="navbar-brand d-flex align-items-center" href="pages/dashboard.php">Dashboard</a>
+                    </li>
+
+                    <li nav-item col-6 col-lg-auto>
+                        <a class="navbar-brand d-flex align-items-center" href="pages/aboutus.php">About Us</a>
+                    </li>
+
+                    <li nav-item col-6 col-lg-auto>
+                        <a class="navbar-brand d-flex align-items-center" href="pages/faqs.php">FAQs</a>
+                    </li>
+            </div>
+        </nav>
+
+    <div class="container mt-5 p-5 shadow-sm">
+        <form method="POST" enctype="multipart/form-data" class="my-4 p-5">
+            <h2 class="display-4 text-center">Report Lost Item</h2>
             
             <div class="form-group mb-3">
                 <label for="category">Category</label>

@@ -53,13 +53,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="register.css">
+    <?php include('../config/bootstrap.php'); ?>
     <title>Register</title>
 </head>
 
 <body>
+    <nav class="shadow navbar custom-navbar sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="../index.php">
+                <img src="../assets/logo.png" width="45" height="45" class="d-inline-block align-middle me-2">
+                FOUND-IT!
+            </a>
+            <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="../index.php">Home</a>
+                </li>
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="dashboard.php">Dashboard</a>
+                </li>
 
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="aboutus.php">About Us</a>
+                </li>
 
-    <?php include '../includes/navbar.php'; ?>
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="faqs.php">FAQs</a>
+                </li>
+        </div>
+    </nav>
 
     <div class="container d-flex justify-content-center align-items-center min-vh-100=">
         <div class="col-md-6">

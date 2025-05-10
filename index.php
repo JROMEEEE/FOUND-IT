@@ -1,5 +1,4 @@
-<?php require_once('config/db.php'); // Include the database connection 
-?>
+<?php require_once('config/db.php'); // Include the database connection ?>
 
 <?php
 $sql = "SELECT * FROM lost_item WHERE user_id = ?";
@@ -15,17 +14,14 @@ $lost_items = $conn->query($sql_lost);
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <title>Document</title>
+    <title>Found-IT!</title>
 </head>
-
 <body>
-
     <nav class="shadow navbar custom-navbar sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="index.php">
@@ -81,6 +77,7 @@ $lost_items = $conn->query($sql_lost);
         die("Error fetching found items: " . $conn->error);
     }
     ?>
+    
     <section class="section">
         <div class="container my-4">
             <h2 class="section-title text-center mb-4">Recently Lost Items</h2>
@@ -116,5 +113,4 @@ $lost_items = $conn->query($sql_lost);
         </div>
 
 </body>
-
 </html>

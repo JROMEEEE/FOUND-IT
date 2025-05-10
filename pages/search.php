@@ -4,8 +4,9 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-include('../includes/header.php'); 
-require_once('../config/db.php');
+
+// Include database configuration
+include('../config/db.php'); // Ensure this file contains the $conn variable
 
 $search_query = "";
 $results = [];
@@ -34,20 +35,43 @@ if (isset($_GET['q'])) {
 }
 ?>
 
-<?php include('../includes/navbar.php') ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Lost & Found Items</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <?php
+    include('../config/bootstrap.php');
+    ?>
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 </head>
 <body>
+    <nav class="shadow navbar custom-navbar sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="../index.php">
+                <img src="../assets/logo.png" width="45" height="45" class="d-inline-block align-middle me-2">
+                FOUND-IT!
+            </a>
+            <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="../index.php">Home</a>
+                </li>
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="pages/dashboard.php">Dashboard</a>
+                </li>
+
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="pages/aboutus.php">About Us</a>
+                </li>
+
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="pages/faqs.php">FAQs</a>
+                </li>
+        </div>
+    </nav>
+
     <h2 class="display-3 text-center mt-5">Search Lost & Found Items</h2>  
 
     <div class="container mb-5">
@@ -63,9 +87,7 @@ if (isset($_GET['q'])) {
         </div>
     </div>
 
-
-
-    <div class="search-results">
+    <div class="search-results p-5">
         <?php if (!empty($results)): ?>
             <div class="table-responsive">
                 <table id="resultsTable" class="table table-striped table-hover table-bordered">
@@ -103,13 +125,4 @@ if (isset($_GET['q'])) {
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384 -MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#datatableid').DataTable();
-        });
-    </script>
-</body>
-</html>
+    <script src="https://cdn.datatables.net/2.1

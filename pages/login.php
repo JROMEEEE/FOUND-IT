@@ -25,18 +25,40 @@ if (isset($_POST['login'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="logins.css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <?php
+    include('../config/bootstrap.php');
+    ?>
+    <link rel="stylesheet" href="login.css">
+    <title>Document</title>
 </head>
-
 <body>
 
- <?php include '../includes/navbar.php'; ?>
+     <nav class="shadow navbar custom-navbar sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="../index.php">
+                <img src="../assets/logo.png" width="45" height="45" class="d-inline-block align-middle me-2">
+                FOUND-IT!
+            </a>
+            <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="../index.php">Home</a>
+                </li>
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="dashboard.php">Dashboard</a>
+                </li>
+
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="aboutus.php">About Us</a>
+                </li>
+
+                <li nav-item col-6 col-lg-auto>
+                    <a class="navbar-brand d-flex align-items-center" href="faqs.php">FAQs</a>
+                </li>
+        </div>
+    </nav>
 
     <div class="container d-flex justify-content-center align-items-center min-vh-100=">
         <div class="col-md-6">
@@ -60,6 +82,6 @@ if (isset($_POST['login'])) {
             </div>
         </div>
     </div>
+    
 </body>
-
 </html>
