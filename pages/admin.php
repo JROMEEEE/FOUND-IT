@@ -36,7 +36,7 @@ require_once('../config/db.php');
 <h2>Admin Dashboard</h2>
 <section class="section">
     <div class="container">
-        <h3>Manage Lost Items</h3>
+        <h3>Manage Claim Requests</h3>
         <?php
         // Fetch all lost items
         $sql = "SELECT * FROM claimsubmissions ORDER BY claim_id DESC";
