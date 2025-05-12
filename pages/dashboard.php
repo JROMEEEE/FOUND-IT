@@ -13,20 +13,22 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 
-// Fetch recent lost/found items (limit 5)
-$sql_lost = "SELECT * FROM Lost_Item ORDER BY date_lost DESC LIMIT 5";
+// Fetch recent lost/found items (limit 5) excluding only approved items
+$sql_lost = "SELECT * FROM lost_Item WHERE status != 'approved' ORDER BY date_lost DESC LIMIT 5";
 $lost_items = $conn->query($sql_lost);
 
-$sql_found = "SELECT * FROM Found_Item ORDER BY date_found DESC LIMIT 5";
+$sql_found = "SELECT * FROM Found_Item WHERE status != 'approved' ORDER BY date_found DESC LIMIT 5";
 $found_items = $conn->query($sql_found);
 
 // Handle search functionality
 $search_results = [];
 if (isset($_POST['search'])) {
     $search_query = $conn->real_escape_string($_POST['search_query']);
-    $sql_search = "SELECT * FROM Found_Item WHERE category LIKE '%$search_query%' OR description LIKE '%$search_query%' 
+    $sql_search = "SELECT * FROM Found_Item WHERE (category LIKE '%$search_query%' OR description LIKE '%$search_query%') 
+                   AND status != 'approved'
                    UNION 
-                   SELECT * FROM Lost_Item WHERE category LIKE '%$search_query%' OR description LIKE '%$search_query%'";
+                   SELECT * FROM lost_Item WHERE (category LIKE '%$search_query%' OR description LIKE '%$search_query%')
+                   AND status != 'approved'";
     $search_results = $conn->query($sql_search);
 }
 

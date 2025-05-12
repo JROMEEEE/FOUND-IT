@@ -1,10 +1,117 @@
 body {
-    background: linear-gradient(135deg, #f1faee 0%, #f1faee 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #1d3557;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
     margin: 0;
     padding: 0;
-    line-height: 1.6;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    color: #2e7d32;
+}
+
+.container {
+    width: 95%; /* Adjusted to occupy 95% of the background */
+    margin: 0 auto;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.table {
+    width: 100%; /* Table occupies the full width of the container */
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    padding: 20px; /* Increased padding for more spacious cells */
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 16px; /* Increased font size for better readability */
+}
+
+.table th {
+    background-color: #2e7d32;
+    color: white;
+    font-size: 18px;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.item-image {
+    width: 150px; /* Increased image size for better visibility */
+    height: auto;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 12px 20px; /* Increased button size */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #1e7e34;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #a71d2a;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* New styles for horizontal buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px; /* Add spacing between buttons */
+    justify-content: flex-start; /* Align buttons to the left */
 }
 
 h2 {

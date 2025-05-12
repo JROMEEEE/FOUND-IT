@@ -5,7 +5,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
     exit();
 }
 
-include('../includes/header.php'); 
 require_once('../config/db.php');
 ?>
 
@@ -13,6 +12,7 @@ require_once('../config/db.php');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Items - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="admin_panel.css">
@@ -39,7 +39,7 @@ require_once('../config/db.php');
         <h3>Manage Lost Items</h3>
         <?php
         // Fetch all lost items
-        $sql = "SELECT * FROM Lost_Item ORDER BY date_lost DESC";
+        $sql = "SELECT * FROM claimsubmissions ORDER BY claim_id DESC";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0): ?>
@@ -48,14 +48,14 @@ require_once('../config/db.php');
                     <thead>
                         <tr>
                             <th>Category</th>
+                            <th>Date</th>
                             <th>Description</th>
-                            <th>Location</th>
-                            <th>Date Lost</th>
-                            <th>Status</th>
+                            <th>Unique Features</th>
                             <th>Reporter Name</th>
                             <th>Reporter Email</th>
                             <th>Reporter Phone</th>
                             <th>Image</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -63,25 +63,24 @@ require_once('../config/db.php');
                         <?php while ($row = $result->fetch_assoc()): ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($row['category']); ?></td>
+                                <td><?php echo htmlspecialchars($row['date']); ?></td>
                                 <td><?php echo htmlspecialchars($row['description']); ?></td>
-                                <td><?php echo htmlspecialchars($row['location']); ?></td>
-                                <td><?php echo htmlspecialchars($row['date_lost']); ?></td>
-                                <td id="status-<?php echo $row['lost_id']; ?>"><?php echo htmlspecialchars($row['status']); ?></td>
-                                <td><?php echo htmlspecialchars($row['reporter_name']); ?></td>
-                                <td><?php echo htmlspecialchars($row['reporter_email']); ?></td>
-                                <td><?php echo htmlspecialchars($row['reporter_phone']); ?></td>
+                                <td><?php echo htmlspecialchars($row['unique_features']); ?></td>
+                                <td><?php echo htmlspecialchars($row['full_name']); ?></td>
+                                <td><?php echo htmlspecialchars($row['email_address']); ?></td>
+                                <td><?php echo htmlspecialchars($row['contact_number']); ?></td>
                                 <td>
-                                    <?php if (!empty($row['image'])): ?>
-                                        <img src="../uploads/<?php echo htmlspecialchars($row['image']); ?>" alt="Item Image" class="item-image">
+                                    <?php if (!empty($row['supporting_image'])): ?>
+                                        <img src="../<?php echo htmlspecialchars((string)$row['supporting_image'] ?? ''); ?>" alt="Supporting Image" class="item-image">
                                     <?php else: ?>
                                         No Image
                                     <?php endif; ?>
                                 </td>
+                                <td id="status-<?php echo $row['claim_id']; ?>"><?php echo ucfirst(htmlspecialchars($row['status'])); ?></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button onclick="updateStatus('approve', <?php echo $row['lost_id']; ?>)" class="btn btn-success">Approve</button>
-                                        <button onclick="updateStatus('reject', <?php echo $row['lost_id']; ?>)" class="btn btn-danger">Reject</button>
-                                        <button onclick="updateStatus('pending', <?php echo $row['lost_id']; ?>)" class="btn btn-warning">Mark as Pending</button>
+                                        <button onclick="updateStatus('approve', <?php echo $row['claim_id']; ?>)" class="btn btn-success">Approve</button>
+                                        <button onclick="updateStatus('reject', <?php echo $row['claim_id']; ?>)" class="btn btn-danger">Reject</button>
                                     </div>
                                 </td>
                             </tr>
@@ -102,7 +101,7 @@ require_once('../config/db.php');
     // Function to update the status via AJAX
     function updateStatus(action, lostId) {
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", `process_item.php?action=${action}&lost_id=${lostId}`, true);
+        xhr.open("GET", `process_item.php?action=${action}&claim_id=${lostId}`, true);
         xhr.onload = function () {
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
@@ -122,125 +121,6 @@ require_once('../config/db.php');
         xhr.send();
     }
 </script>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f9f9f9;
-        color: #333;
-        margin: 0;
-        padding: 0;
-    }
-
-    h2 {
-        text-align: center;
-        margin-top: 20px;
-        color: #2e7d32;
-    }
-
-    .container {
-        width: 95%; /* Adjusted to occupy 95% of the background */
-        margin: 0 auto;
-    }
-
-    .table-container {
-        overflow-x: auto;
-        margin-top: 20px;
-    }
-
-    .table {
-        width: 100%; /* Table occupies the full width of the container */
-        border-collapse: collapse;
-        background-color: #fff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .table th, .table td {
-        padding: 20px; /* Increased padding for more spacious cells */
-        text-align: left;
-        border: 1px solid #ddd;
-        font-size: 16px; /* Increased font size for better readability */
-    }
-
-    .table th {
-        background-color: #2e7d32;
-        color: white;
-        font-size: 18px;
-    }
-
-    .table tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-
-    .table tr:hover {
-        background-color: #f1f1f1;
-    }
-
-    .item-image {
-        width: 150px; /* Increased image size for better visibility */
-        height: auto;
-        border-radius: 5px;
-    }
-
-    .btn {
-        padding: 12px 20px; /* Increased button size */
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn-success {
-        background-color: #28a745;
-        color: white;
-    }
-
-    .btn-success:hover {
-        background-color: #1e7e34;
-    }
-
-    .btn-danger {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    .btn-danger:hover {
-        background-color: #a71d2a;
-    }
-
-    .btn-warning {
-        background-color: #ffc107;
-        color: white;
-    }
-
-    .btn-warning:hover {
-        background-color: #e0a800;
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        color: white;
-        text-decoration: none;
-        padding: 12px 25px;
-        border-radius: 5px;
-        display: inline-block;
-        margin-top: 20px;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
-    }
-
-    /* New styles for horizontal buttons */
-    .action-buttons {
-        display: flex;
-        gap: 10px; /* Add spacing between buttons */
-        justify-content: flex-start; /* Align buttons to the left */
-    }
-</style>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="admin.js"></script>

@@ -67,10 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     // Insert claim into database
-    $sql = "INSERT INTO claimsubmissions (category, date, description, unique_features, supporting_image, full_name, email_address, contact_number) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO claimsubmissions (found_id, category, date, description, unique_features, supporting_image, full_name, email_address, contact_number) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssss", $category, $date, $description, $unique_features, $supporting_image, $full_name, $email_address, $contact_number);
+    $stmt->bind_param("issssssss", $item_id, $category, $date, $description, $unique_features, $supporting_image, $full_name, $email_address, $contact_number);
     
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Your claim has been submitted successfully!";
